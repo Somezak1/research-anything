@@ -176,12 +176,3 @@ research-anything/
 ---
 
 <p align="center">觉得有用的话，点个 ⭐ 让更多人看到。</p>
-
-<p align="center">
-  <a href="https://star-history.com/#Somezak1/research-anything&Date">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Somezak1/research-anything&type=Date&theme=dark" />
-      <img alt="Star History" src="https://api.star-history.com/svg?repos=Somezak1/research-anything&type=Date" width="500" />
-    </picture>
-  </a>
-</p>
