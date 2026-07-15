@@ -5,15 +5,15 @@
 <p align="center">An all-channel research skill for Claude Code — it sweeps 8 channels for first-hand practices, dispatches sub agents to verify what it doesn't know, and converges everything into <b>one actionable plan that fits your situation</b> — not a laundry list of options.</p>
 
 <p align="center">
-  <a href="README.md">English</a> •
-  <a href="README_CN.md">简体中文</a> •
-  <a href="README_JA.md">日本語</a> •
-  <a href="README_KO.md">한국어</a> •
-  <a href="README_ES.md">Español</a> •
-  <a href="README_FR.md">Français</a> •
-  <a href="README_DE.md">Deutsch</a> •
-  <a href="README_PT.md">Português</a> •
-  <a href="README_RU.md">Русский</a>
+  <a href="README.md"><img alt="English" src="https://img.shields.io/badge/English-0969da?style=flat-square"></a>
+  <a href="README_CN.md"><img alt="简体中文" src="https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-e8eaed?style=flat-square"></a>
+  <a href="README_JA.md"><img alt="日本語" src="https://img.shields.io/badge/%E6%97%A5%E6%9C%AC%E8%AA%9E-e8eaed?style=flat-square"></a>
+  <a href="README_KO.md"><img alt="한국어" src="https://img.shields.io/badge/%ED%95%9C%EA%B5%AD%EC%96%B4-e8eaed?style=flat-square"></a>
+  <a href="README_ES.md"><img alt="Español" src="https://img.shields.io/badge/Espa%C3%B1ol-e8eaed?style=flat-square"></a>
+  <a href="README_FR.md"><img alt="Français" src="https://img.shields.io/badge/Fran%C3%A7ais-e8eaed?style=flat-square"></a>
+  <a href="README_DE.md"><img alt="Deutsch" src="https://img.shields.io/badge/Deutsch-e8eaed?style=flat-square"></a>
+  <a href="README_PT.md"><img alt="Português" src="https://img.shields.io/badge/Portugu%C3%AAs-e8eaed?style=flat-square"></a>
+  <a href="README_RU.md"><img alt="Русский" src="https://img.shields.io/badge/%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9-e8eaed?style=flat-square"></a>
 </p>
 
 <p align="center">
