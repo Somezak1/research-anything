@@ -17,14 +17,6 @@
 </p>
 
 <p align="center">
-  <img alt="Claude Code" src="https://img.shields.io/badge/Claude%20Code-skill-blueviolet?style=flat-square" />
-  <img alt="Channels" src="https://img.shields.io/badge/research%20channels-8-orange?style=flat-square" />
-  <img alt="macOS" src="https://img.shields.io/badge/macOS-tested-lightgrey?style=flat-square" />
-  <img alt="Duration" src="https://img.shields.io/badge/one%20run-30%E2%80%9360%20min-green?style=flat-square" />
-  <img alt="Cited" src="https://img.shields.io/badge/every%20claim-cited-1abc9c?style=flat-square" />
-</p>
-
-<p align="center">
   <a href="#-why-its-different-from-ai-go-search-for-me">Why it's different</a> •
   <a href="#-how-a-research-run-unfolds">How it works</a> •
   <a href="#-quick-start">Quick start</a> •
@@ -41,7 +33,7 @@
 >
 > research-anything hardens the whole pipeline — **sweep every channel → verify the evidence → converge on a plan** — into a single Claude Code skill. One sentence to trigger, 30–60 minutes to finish.
 
-📱 Douyin · 📕 Xiaohongshu (RED) · 💬 Zhihu · 📺 Bilibili · ▶️ YouTube · 🐙 GitHub · 🐦 Twitter(X) · 🌐 General web
+<p align="center">📱 Douyin · 📕 Xiaohongshu (RED) · 💬 Zhihu · 📺 Bilibili · ▶️ YouTube · 🐙 GitHub · 🐦 Twitter(X) · 🌐 General web</p>
 
 ## ✨ Why it's different from "AI, go search for me"
 

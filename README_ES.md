@@ -17,14 +17,6 @@
 </p>
 
 <p align="center">
-  <img alt="Claude Code" src="https://img.shields.io/badge/Claude%20Code-skill-blueviolet?style=flat-square" />
-  <img alt="Channels" src="https://img.shields.io/badge/research%20channels-8-orange?style=flat-square" />
-  <img alt="macOS" src="https://img.shields.io/badge/macOS-tested-lightgrey?style=flat-square" />
-  <img alt="Duration" src="https://img.shields.io/badge/one%20run-30%E2%80%9360%20min-green?style=flat-square" />
-  <img alt="Cited" src="https://img.shields.io/badge/every%20claim-cited-1abc9c?style=flat-square" />
-</p>
-
-<p align="center">
   <a href="#-por-qué-es-diferente-de-ia-busca-por-mí">Por qué es diferente</a> •
   <a href="#-cómo-se-desarrolla-una-investigación">Cómo funciona</a> •
   <a href="#-inicio-rápido">Inicio rápido</a> •
@@ -41,7 +33,7 @@
 >
 > research-anything consolida todo el pipeline — **barrer todos los canales → verificar la evidencia → converger en un plan** — en una sola skill de Claude Code. Una frase para activarla, 30–60 minutos para terminar.
 
-📱 Douyin · 📕 Xiaohongshu (RED) · 💬 Zhihu · 📺 Bilibili · ▶️ YouTube · 🐙 GitHub · 🐦 Twitter(X) · 🌐 Web general
+<p align="center">📱 Douyin · 📕 Xiaohongshu (RED) · 💬 Zhihu · 📺 Bilibili · ▶️ YouTube · 🐙 GitHub · 🐦 Twitter(X) · 🌐 Web general</p>
 
 ## ✨ Por qué es diferente de "IA, busca por mí"
 

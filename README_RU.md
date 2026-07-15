@@ -17,14 +17,6 @@
 </p>
 
 <p align="center">
-  <img alt="Claude Code" src="https://img.shields.io/badge/Claude%20Code-skill-blueviolet?style=flat-square" />
-  <img alt="Channels" src="https://img.shields.io/badge/research%20channels-8-orange?style=flat-square" />
-  <img alt="macOS" src="https://img.shields.io/badge/macOS-tested-lightgrey?style=flat-square" />
-  <img alt="Duration" src="https://img.shields.io/badge/one%20run-30%E2%80%9360%20min-green?style=flat-square" />
-  <img alt="Cited" src="https://img.shields.io/badge/every%20claim-cited-1abc9c?style=flat-square" />
-</p>
-
-<p align="center">
   <a href="#-чем-это-отличается-от-ии-поищи-за-меня">Чем это отличается</a> •
   <a href="#-как-проходит-исследование">Как это работает</a> •
   <a href="#-быстрый-старт">Быстрый старт</a> •
@@ -41,7 +33,7 @@
 >
 > research-anything упаковывает весь конвейер — **прочесать все каналы → проверить доказательства → сойтись на плане** — в один навык Claude Code. Одна фраза для запуска, 30–60 минут до результата.
 
-📱 Douyin · 📕 Xiaohongshu (RED) · 💬 Zhihu · 📺 Bilibili · ▶️ YouTube · 🐙 GitHub · 🐦 Twitter(X) · 🌐 Общий веб
+<p align="center">📱 Douyin · 📕 Xiaohongshu (RED) · 💬 Zhihu · 📺 Bilibili · ▶️ YouTube · 🐙 GitHub · 🐦 Twitter(X) · 🌐 Общий веб</p>
 
 ## ✨ Чем это отличается от «ИИ, поищи за меня»
 

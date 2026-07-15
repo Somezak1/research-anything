@@ -17,14 +17,6 @@
 </p>
 
 <p align="center">
-  <img alt="Claude Code" src="https://img.shields.io/badge/Claude%20Code-skill-blueviolet?style=flat-square" />
-  <img alt="Channels" src="https://img.shields.io/badge/research%20channels-8-orange?style=flat-square" />
-  <img alt="macOS" src="https://img.shields.io/badge/macOS-tested-lightgrey?style=flat-square" />
-  <img alt="Duration" src="https://img.shields.io/badge/one%20run-30%E2%80%9360%20min-green?style=flat-square" />
-  <img alt="Cited" src="https://img.shields.io/badge/every%20claim-cited-1abc9c?style=flat-square" />
-</p>
-
-<p align="center">
   <a href="#-ai야-검색해-줘와-무엇이-다른가">무엇이 다른가</a> •
   <a href="#-리서치는-이렇게-진행됩니다">작동 방식</a> •
   <a href="#-빠른-시작">빠른 시작</a> •
@@ -41,7 +33,7 @@
 >
 > research-anything은 **모든 채널 훑기 → 증거 검증 → 계획으로 수렴**이라는 파이프라인 전체를 하나의 Claude Code 스킬로 단단히 굳혔습니다. 한 문장이면 시작되고, 30–60분이면 끝납니다.
 
-📱 더우인 · 📕 샤오홍슈 (RED) · 💬 즈후 · 📺 비리비리 · ▶️ YouTube · 🐙 GitHub · 🐦 Twitter(X) · 🌐 일반 웹
+<p align="center">📱 더우인 · 📕 샤오홍슈 (RED) · 💬 즈후 · 📺 비리비리 · ▶️ YouTube · 🐙 GitHub · 🐦 Twitter(X) · 🌐 일반 웹</p>
 
 ## ✨ "AI야, 검색해 줘"와 무엇이 다른가
 
