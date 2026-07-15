@@ -1,178 +1,193 @@
 <h1 align="center">🔍 research-anything</h1>
 
-<p align="center"><b>给它一个想法，还你一个方案。</b></p>
+<p align="center"><b>Give it an idea. Get back a plan.</b></p>
 
-<p align="center">Claude Code 的全渠道调研 skill —— 跨 8 个渠道收集一手做法，自主派 agent 查证补课，<br/>把海量信息收束成<b>一个切实可行、符合你自身情况的方案</b>，而不是海量方案的罗列。</p>
+<p align="center">An all-channel research skill for Claude Code — it sweeps 8 channels for first-hand practices, dispatches sub agents to verify what it doesn't know, and converges everything into <b>one actionable plan that fits your situation</b> — not a laundry list of options.</p>
 
 <p align="center">
-  <img alt="Claude Code" src="https://img.shields.io/badge/Claude%20Code-skill-blueviolet?style=flat-square" />
-  <img alt="渠道" src="https://img.shields.io/badge/%E8%B0%83%E7%A0%94%E6%B8%A0%E9%81%93-8%20%E4%B8%AA-orange?style=flat-square" />
-  <img alt="macOS" src="https://img.shields.io/badge/macOS-%E5%B7%B2%E5%AE%9E%E6%B5%8B-lightgrey?style=flat-square" />
-  <img alt="耗时" src="https://img.shields.io/badge/%E4%B8%80%E6%AC%A1%E8%B0%83%E7%A0%94-30%E2%80%9360%20min-green?style=flat-square" />
-  <img alt="结论" src="https://img.shields.io/badge/%E6%AF%8F%E4%B8%AA%E7%BB%93%E8%AE%BA-%E5%B8%A6%E5%87%BA%E5%A4%84-1abc9c?style=flat-square" />
+  <a href="README.md">English</a> •
+  <a href="README_CN.md">简体中文</a> •
+  <a href="README_JA.md">日本語</a> •
+  <a href="README_KO.md">한국어</a> •
+  <a href="README_ES.md">Español</a> •
+  <a href="README_FR.md">Français</a> •
+  <a href="README_DE.md">Deutsch</a> •
+  <a href="README_PT.md">Português</a> •
+  <a href="README_RU.md">Русский</a>
 </p>
 
 <p align="center">
-  <a href="#-为什么和ai-搜一圈不一样">为什么不一样</a> •
-  <a href="#-一次调研是怎么跑完的">它怎么跑</a> •
-  <a href="#-快速开始">快速开始</a> •
-  <a href="#-首次配置一次性">首次配置</a> •
-  <a href="#-使用">使用</a> •
-  <a href="#-各渠道能拿到什么">渠道能力</a> •
+  <img alt="Claude Code" src="https://img.shields.io/badge/Claude%20Code-skill-blueviolet?style=flat-square" />
+  <img alt="Channels" src="https://img.shields.io/badge/research%20channels-8-orange?style=flat-square" />
+  <img alt="macOS" src="https://img.shields.io/badge/macOS-tested-lightgrey?style=flat-square" />
+  <img alt="Duration" src="https://img.shields.io/badge/one%20run-30%E2%80%9360%20min-green?style=flat-square" />
+  <img alt="Cited" src="https://img.shields.io/badge/every%20claim-cited-1abc9c?style=flat-square" />
+</p>
+
+<p align="center">
+  <a href="#-why-its-different-from-ai-go-search-for-me">Why it's different</a> •
+  <a href="#-how-a-research-run-unfolds">How it works</a> •
+  <a href="#-quick-start">Quick start</a> •
+  <a href="#-first-time-setup-once">First-time setup</a> •
+  <a href="#-usage">Usage</a> •
+  <a href="#-what-each-channel-yields">Channels</a> •
   <a href="#-faq">FAQ</a>
 </p>
 
 ---
 
-> **市面上的先进做法，不该锁在你刷不到的信息流里。**
-> 真正有用的实操经验，散落在抖音和小红书的视频里、B站的长测评里、知乎的从业者长答里、GitHub 的 issue 里、Twitter 的 thread 里——普通网页搜索够不到，AI 的训练数据又停在过去。闭门造车的结果往往是：做出来才发现方案已经落后好几代。
+> **The state of the art shouldn't stay locked inside feeds you never scroll.**
+> The practices that actually work are scattered across Douyin and Xiaohongshu videos, Bilibili deep-dive reviews, Zhihu long-form answers, GitHub issues, and X threads — places ordinary web search can't reach, and where AI training data has long gone stale. Build in isolation and you often find out too late that your approach is generations behind.
 >
-> research-anything 把 **「全渠道搜集 → 证据核实 → 收束成方案」** 整个流程固化成一个 Claude Code skill，一句话触发，30–60 分钟跑完。
+> research-anything hardens the whole pipeline — **sweep every channel → verify the evidence → converge on a plan** — into a single Claude Code skill. One sentence to trigger, 30–60 minutes to finish.
 
-📱 抖音 · 📕 小红书 · 💬 知乎 · 📺 B站 · ▶️ YouTube · 🐙 GitHub · 🐦 Twitter(X) · 🌐 通用网页
+📱 Douyin · 📕 Xiaohongshu (RED) · 💬 Zhihu · 📺 Bilibili · ▶️ YouTube · 🐙 GitHub · 🐦 Twitter(X) · 🌐 General web
 
-## ✨ 为什么和"AI 搜一圈"不一样
+## ✨ Why it's different from "AI, go search for me"
 
-| | 常规的"AI 帮我调研一下" | research-anything |
+| | The usual "AI, do some research" | research-anything |
 |---|---|---|
-| **信息来源** | 训练数据里的旧知识 + 几次浅层网页搜索 | 8 个渠道的一手内容，含网页搜不到的短视频/社区实操 |
-| **视频和配图** | 看不了，只能读标题和简介 | 取字幕 / 转写口播全文、识别配图文字、抓高赞评论，全部进证据 |
-| **遇到不认识的新名词** | 顺着字面意思猜 | 每个词自主派一个 sub agent 查证建卡（是什么/谁做的/何时发布/取代了谁），拼出领域"代际时间线" |
-| **关键数字与说法** | 原样转述，真假不知 | 逐条派 sub agent 定点核查：事实问官方、品质问独立口碑；厂商自评标注，核不动的明说"未证实" |
-| **你的需求还模糊时** | 上来就逼问你目标和预算 | 先看完市面上有什么，再带着真实信息回来帮你把需求想清楚 |
-| **最终交付** | N 个并列选项，还是要你自己挑 | **一个**默认路径 + 切换条件，落到步骤/命令级，每个结论带来源编号 |
+| **Sources** | Stale training data + a few shallow web searches | First-hand content from 8 channels, including short-video and community posts that web search can't reach |
+| **Videos & images** | Can't watch them; reads titles and blurbs only | Pulls subtitles / transcribes full speech, OCRs images, captures top comments — everything enters the evidence |
+| **Unfamiliar terms** | Guesses from the surface | Dispatches one sub agent per term to verify it (what it is / who made it / when it shipped / what it supersedes), then assembles a generational timeline of the field |
+| **Key numbers & claims** | Repeats them, true or not | Spot-checks each one: facts against official sources, quality claims against independent word-of-mouth; vendor self-praise gets labeled; the unverifiable is marked "unverified" |
+| **When your needs are vague** | Interrogates you about goals and budget upfront | Surveys the landscape first, then comes back with real information to help you figure out what you actually need |
+| **Final deliverable** | N parallel options — you still have to choose | **One** default path + switch conditions, down to step/command level, every conclusion cited |
 
-其中两条展开说：
+Two of those, expanded:
 
-**🧠 它知道自己有不懂的，并且会去补。** AI 调研最常见的硬伤是训练数据停在过去——把落后好几代的方案当最新推荐还不自知。research-anything 在通读笔记时，把每一个陌生名词、新工具、新模型（包括超出训练数据的新事物）都派发独立的 sub agent 现场查证，按发布时间排出方法/工具的代际时间线，推荐任何方案前先看它站在时间线的哪一代。
+**🧠 It knows what it doesn't know — and goes to fill the gaps.** The most common failure of AI research is training data frozen in the past: recommending an approach that's generations behind without realizing it. While reading through its notes, research-anything dispatches an independent sub agent for every unfamiliar term, new tool, or new model (including things newer than its training data) to verify it on the spot, then orders everything by release date into a generational timeline — before recommending anything, it checks which generation that thing stands on.
 
-**🌫️→🎯 需求可以模糊进来、明确出去。** 两种给法都行：
+**🌫️→🎯 Requirements can come in vague and leave sharp.** Both of these work:
 
-> 😶‍🌫️ 模糊需求："周末北京 3 天 2 晚游玩攻略"
+> 😶‍🌫️ Vague: "A weekend 3-day, 2-night Beijing itinerary"
 >
-> 📋 带约束需求："周末北京 3 天 2 晚游玩攻略，3 个成年人 + 1 个两岁宝宝 + 1 个 80 岁老人，自驾，住宿预算每晚每间 1000 以内"
+> 📋 Constrained: "A weekend 3-day, 2-night Beijing itinerary — 3 adults + a 2-year-old + an 80-year-old, self-driving, hotel budget under ¥1,000 per room per night"
 
-模糊的它不会上来逼问（这时候你自己也答不好），而是调研完带着真实信息回来和你对齐：把方案里会出现的名词逐个讲给你听、列出多方独立印证过的关键结论、只问真正影响取舍的几个问题。**调研过程本身就在帮你把需求想清楚。**
+Given a vague request, it won't interrogate you upfront (you can't answer well yet anyway). It surveys what's out there first, then comes back to align with you: it explains every term that will appear in the plan, lists the key conclusions independently corroborated by multiple sources, and asks only the few questions that genuinely change the trade-offs. **The research process itself helps you figure out what you need.**
 
-## 🔄 一次调研是怎么跑完的
+## 🔄 How a research run unfolds
 
 ```mermaid
 flowchart LR
-    A["💡 你的想法<br/>（模糊或带约束）"] --> B["📋 搜集计划<br/>等你批准"]
-    B --> C["🕸️ 8 渠道并行收集<br/>+ 独立证据复核"]
-    C --> D["🧠 通读全部笔记<br/>派 agent 建生词卡·核查关键说法"]
-    D --> E["💬 和你对齐<br/>讲名词 · 报印证 · 问取舍"]
+    A["💡 Your idea<br/>(vague or constrained)"] --> B["📋 Collection plan<br/>awaits your approval"]
+    B --> C["🕸️ 8 channels collected in parallel<br/>+ independent evidence audit"]
+    C --> D["🧠 Reads every note<br/>agents verify terms & claims"]
+    D --> E["💬 Aligns with you<br/>explains · corroborates · asks"]
     E --> F["📦 report.html<br/>+ runbook.json"]
 ```
 
-从你说出想法的那一刻起：它先确认一件事——调研方向有没有理解偏，不逼问你还答不好的目标和预算。然后给你一份**搜集计划**（渠道 × 关键词 × 深度 × 预计耗时/费用），你增删批准后，8 个渠道并行开工：每个渠道一个收集 agent 实搜落盘做精华笔记，再由独立的复核 agent 逐条补齐视频口播、高赞评论、配图文字、开源许可证等证据——不合格会被校验器拦下重做，不会静默糊弄。
+From the moment you state your idea: it first confirms one thing only — that it hasn't misread the research direction — without grilling you on goals and budgets you can't answer yet. Then it hands you a **collection plan** (channels × keywords × depth × estimated time/cost). Once you tweak and approve it, 8 channels start in parallel: one collector agent per channel searches for real content and files distilled notes to disk, then an independent audit agent completes the evidence item by item — video transcripts, top comments, image text, open-source licenses. Anything below the bar gets caught by validators and redone, never silently fudged.
 
-收集完成后，主 agent 亲自通读全部笔记，把陌生名词和承重的关键说法分派给一群 sub agent 并行查证。出方案前先"讲"再"问"：名词速览、多方交叉印证的结论、几道关键取舍题。最后在你的项目里落盘两份交付物——给人看的报告和给 AI 执行的 runbook，每个结论都可以反查到原帖。
+After collection, the main agent personally reads every note, dispatching a swarm of sub agents in parallel to verify unfamiliar terms and load-bearing claims. Before proposing anything it explains first, asks second: a glossary walkthrough, the cross-corroborated conclusions, and a few key trade-off questions. Finally it writes two deliverables into your project — a report for humans and a runbook for AI — with every conclusion traceable back to its source post.
 
-## 🚀 快速开始
+## 🚀 Quick start
 
-**前提**：你已在用 [Claude Code](https://claude.com/claude-code)（skill 依赖其子 agent / Workflow 编排能力）；macOS（已实测）。
+**Prerequisites**: You already use [Claude Code](https://claude.com/claude-code) (the skill relies on its sub-agent / Workflow orchestration); macOS (tested).
 
-把下面整段话直接粘贴给 Claude Code（或 Codex），安装的体力活让它替你干：
+Paste the whole block below to Claude Code (or Codex) and let it do the legwork:
 
 ```text
-请一步步帮我安装并配置 research-anything（一个 Claude Code 调研 skill）：
+Please install and configure research-anything (a Claude Code research skill) step by step:
 
-1. 克隆 skill 本体：
+1. Clone the skill itself:
    git clone https://github.com/Somezak1/research-anything.git ~/.claude/skills/research-anything
 
-2. 创建工具目录 ~/tools/ 并安装采集工具（skill 文档默认所有工具都在 ~/tools/ 下）：
+2. Create the tools directory ~/tools/ and install the collectors
+   (the skill's docs assume every tool lives under ~/tools/):
    - git clone https://github.com/NanmiCoder/MediaCrawler.git ~/tools/MediaCrawler
-     并按它的 README 用 uv 装好依赖（用于抖音/小红书/知乎/B站四个平台的采集）
-   - 安装 yt-dlp：brew install yt-dlp（用于 YouTube/B站字幕直取）
+     and install its dependencies with uv per its README
+     (used to collect Douyin / Xiaohongshu / Zhihu / Bilibili)
+   - Install yt-dlp: brew install yt-dlp (for YouTube/Bilibili subtitle fetching)
 
-3. 确认 Claude Code 已配置 GitHub MCP（官方 github 插件/MCP server），没有就帮我配好
-   （GitHub 渠道靠它搜索仓库、读 README 和 LICENSE）
+3. Make sure Claude Code has the GitHub MCP (official github plugin / MCP server)
+   configured; set it up if not
+   (the GitHub channel relies on it to search repos and read READMEs and LICENSEs)
 
-4.（可选，要跑 Twitter 渠道才做）在 ~/tools/twscrape 下用 uv 建独立虚拟环境并安装
-   twscrape（https://github.com/vladkens/twscrape）
+4. (Optional — only if you want the Twitter channel) Create a dedicated uv venv under
+   ~/tools/twscrape and install twscrape (https://github.com/vladkens/twscrape)
 
-5.（可选，小红书秒级快搜）安装 https://github.com/xpzouying/xiaohongshu-mcp 到
-   ~/tools/xiaohongshu-mcp，并注册进 Claude Code 的 MCP 配置
-   （不装也不影响：小红书默认走 MediaCrawler 采集）
+5. (Optional — fast Xiaohongshu search) Install https://github.com/xpzouying/xiaohongshu-mcp
+   to ~/tools/xiaohongshu-mcp and register it in Claude Code's MCP config
+   (skipping is fine: Xiaohongshu falls back to MediaCrawler)
 
-装完后逐项汇报成功/失败，失败的项告诉我如何手动处理。
+When done, report success/failure item by item, and tell me how to fix the failures manually.
 ```
 
-> 💡 工具目录必须是 `~/tools/`（skill 内所有命令按这个路径写）。已经装在别处的话，做个软链接即可：`ln -s <你的工具目录> ~/tools`。
+> 💡 The tools directory must be `~/tools/` (every command in the skill's docs is written against it). Already installed elsewhere? Just symlink: `ln -s <your tools dir> ~/tools`.
 
-## 🔑 首次配置（一次性）
+## 🔑 First-time setup (once)
 
-以下几步涉及扫码登录和账号凭据，AI 替代不了你，但每项只需做一次：
+These steps involve QR-code logins and account credentials — the AI can't stand in for you, but each is one-time:
 
-| 步骤 | 做什么 | 不做会怎样 |
+| Step | What to do | If skipped |
 |---|---|---|
-| 📲 四平台登录（**必做**） | 在 `~/tools/MediaCrawler` 下对抖音/小红书/知乎/B站各跑一次搜索命令（如 `uv run main.py --platform xhs --type search --keywords "测试"`），弹出浏览器扫码。登录态持久化，之后无人值守可跑 | 对应平台采集失败 |
-| 🐦 Twitter（可选） | 准备一个**小号**（绝不要绑主号），浏览器登录后取 `auth_token` + `ct0` 两个 cookie，执行 `~/tools/twscrape/.venv/bin/twscrape add_cookie <用户名> 'auth_token=...; ct0=...'` | Twitter 渠道申报失败，其余照跑 |
-| 📺 B站字幕 cookie（可选） | 从浏览器导出 B站 cookie 存为 `~/tools/bili_cookies.txt`（Netscape 格式，可用 Get cookies.txt LOCALLY 扩展） | B站视频走付费转写或申报失败 |
-| 🎙️ 付费语音转写（可选） | 开通阿里云百炼 fun-asr（约 0.8 元/小时，有免费额度），`~/.zshrc` 里 `export DASHSCOPE_API_KEY=你的key` | 抖音/小红书视频无法转写口播，只用帖子文字和评论 |
+| 📲 Four-platform login (**required**) | Under `~/tools/MediaCrawler`, run one search per platform (e.g. `uv run main.py --platform xhs --type search --keywords "test"`) and scan the QR code in the browser it opens. Login state persists; runs unattended afterwards | Those platforms fail to collect |
+| 🐦 Twitter (optional) | Use a **burner account** (never your main), log in via browser, grab the `auth_token` + `ct0` cookies, then run `~/tools/twscrape/.venv/bin/twscrape add_cookie <user> 'auth_token=...; ct0=...'` | Twitter channel reports failure; everything else runs |
+| 📺 Bilibili subtitle cookie (optional) | Export your Bilibili cookies to `~/tools/bili_cookies.txt` (Netscape format, e.g. via the Get cookies.txt LOCALLY extension) | Bilibili videos fall back to paid transcription or report failure |
+| 🎙️ Paid speech-to-text (optional) | Enable fun-asr on Alibaba Cloud Bailian (~¥0.8/hour, free tier included), then add `export DASHSCOPE_API_KEY=your_key` to `~/.zshrc` | Douyin/Xiaohongshu videos can't be transcribed; text and comments only |
 
-所有可选项都遵循同一原则：**缺了哪个，对应能力如实降级并在报告里申报，绝不静默装作没事。**
+Every optional item follows one principle: **whatever is missing, the corresponding capability degrades honestly and is disclosed in the report — never silently papered over.**
 
-## 🎬 使用
+## 🎬 Usage
 
-在任意项目里打开 Claude Code，直接说出你的想法即可自动触发：
+Open Claude Code in any project and just say what you're thinking — it triggers automatically:
 
-> 💬 我想做 AI 漫剧，帮我调研一下市面上的成熟做法
+> 💬 I want to make AI comic dramas — research the mature approaches on the market
 
-> 💬 周末北京 3 天 2 晚游玩攻略，3 个成年人 + 1 个两岁宝宝 + 1 个 80 岁老人，自驾，住宿预算每晚每间 1000 以内
+> 💬 A weekend 3-day, 2-night Beijing itinerary — 3 adults + a 2-year-old + an 80-year-old, self-driving, hotel budget under ¥1,000 per room per night
 
-跑完后在你项目的 `docs/research/<主题>/` 下产出：
+When the run finishes, you'll find under `docs/research/<topic>/` in your project:
 
-| 交付物 | 用途 |
+| Deliverable | Purpose |
 |---|---|
-| 📄 `report.html` | 给人看：执行摘要、代际时间线、各渠道景观、默认方案+切换条件、对比矩阵、全部来源 |
-| 🤖 `runbook.json` | 给 AI 执行：命令级步骤、备选切换条件、已核实/未核实/待实测清单 |
-| 🗂️ `raw/` `verify/` `qa.md` | 全部原始笔记、核查裁决、问答存档——每个结论都能反查原帖 |
+| 📄 `report.html` | For humans: executive summary, generational timeline, per-channel landscape, default plan + switch conditions, comparison matrix, all sources |
+| 🤖 `runbook.json` | For AI: command-level steps, fallback conditions, verified / unverified / to-test lists |
+| 🗂️ `raw/` `verify/` `qa.md` | Every raw note, verification verdict, and Q&A transcript — every conclusion traces back to its source |
 
-## 🕸️ 各渠道能拿到什么
+## 🕸️ What each channel yields
 
-| 渠道 | 采集工具 | 进入证据的内容 |
+| Channel | Collector | Evidence captured |
 |---|---|---|
-| 📱 抖音 | MediaCrawler | 视频口播转写全文 + 高赞评论 + 互动数据 |
-| 📕 小红书 | MediaCrawler / xiaohongshu-mcp | 笔记正文 + 配图 OCR 文字 + 视频转写 + 高赞评论 |
-| 💬 知乎 | MediaCrawler | 回答/文章全文（数百到数万字）+ 高赞评论 |
-| 📺 B站 | MediaCrawler + yt-dlp | AI 字幕全文（免费）/ 转写 + 高赞评论 + 弹幕热度 |
-| ▶️ YouTube | yt-dlp | 字幕全文直取（免费）+ 评论 |
-| 🐙 GitHub | GitHub MCP | README 实读 + star/活跃度 + **根目录真实 LICENSE 核对** + issue 挖坑 |
-| 🐦 Twitter(X) | twscrape | 推文 + thread + 网友回复正文 + 视频字幕/转写 |
-| 🌐 通用网页 | WebSearch / tavily | 官方文档、定价页、横评长文（交叉验证用） |
+| 📱 Douyin | MediaCrawler | Full speech transcripts + top comments + engagement metrics |
+| 📕 Xiaohongshu | MediaCrawler / xiaohongshu-mcp | Post text + image OCR + video transcripts + top comments |
+| 💬 Zhihu | MediaCrawler | Full answers/articles (hundreds to tens of thousands of words) + top comments |
+| 📺 Bilibili | MediaCrawler + yt-dlp | AI subtitle full text (free) / transcription + top comments + danmaku heat |
+| ▶️ YouTube | yt-dlp | Subtitle full text, fetched directly (free) + comments |
+| 🐙 GitHub | GitHub MCP | README actually read + stars/activity + **real root-level LICENSE check** + issue mining |
+| 🐦 Twitter(X) | twscrape | Tweets + threads + reply text + video subtitles/transcription |
+| 🌐 General web | WebSearch / tavily | Official docs, pricing pages, long-form comparisons (for cross-validation) |
 
 ## ❓ FAQ
 
-**要花钱吗？** 整个流程唯一可能花钱的是可选的付费语音转写（约 0.8 元/小时），且必须先给出数值上限、经你明确同意才会调用。其余全部免费（用你已有的 Claude Code 订阅）。
+**Does it cost money?** The only step that can cost anything is optional paid speech-to-text (~¥0.8/hour), and it never runs without your explicit approval of a numeric cap. Everything else is free (it runs on the Claude Code subscription you already have).
 
-**某个渠道连不上/没配置会怎样？** 如实降级：该渠道申报失败原因，其余渠道照跑，报告附录里公示每个渠道、每个关键词的命中/失败情况——绝不静默装作覆盖了。
+**What if a channel is unreachable or unconfigured?** Honest degradation: that channel reports its failure reason, the rest keep running, and the report's appendix discloses hit/failure counts per channel and per keyword — coverage is never silently faked.
 
-**Windows / Linux 能用吗？** 目前仅在 macOS 上实测（图片文字识别用 macOS 系统能力）。其他平台需自行替换 OCR 脚本，欢迎 PR。
+**Windows / Linux?** Only macOS is tested so far (image OCR uses a macOS system capability). Other platforms need a replacement OCR script — PRs welcome.
 
-**合规吗？** 采集内容仅供个人调研使用，请遵守各平台服务条款；skill 内置了控频防风控约束；Twitter 只用小号。所有登录态、cookie、API Key 只存在你本机，**本仓库不含任何凭据**。
+**Is it compliant?** Collected content is for personal research only; respect each platform's terms of service. The skill has built-in rate-limiting and anti-risk constraints; use a burner account for Twitter. All login state, cookies, and API keys stay on your machine — **this repository contains no credentials**.
 
-## 🙏 站在这些项目的肩膀上
+## 🙏 Standing on the shoulders of
 
-| 项目 | 在这里的角色 |
+| Project | Role here |
 |---|---|
-| [NanmiCoder/MediaCrawler](https://github.com/NanmiCoder/MediaCrawler) | 抖音 / 小红书 / 知乎 / B站 四平台采集 |
-| [vladkens/twscrape](https://github.com/vladkens/twscrape) | Twitter/X 搜索与回复抓取 |
-| [yt-dlp/yt-dlp](https://github.com/yt-dlp/yt-dlp) | YouTube / B站 字幕直取与视频下载 |
-| [xpzouying/xiaohongshu-mcp](https://github.com/xpzouying/xiaohongshu-mcp) | 小红书秒级快搜（可选） |
-| 阿里云百炼 fun-asr | 视频口播转写（可选、按量计费） |
+| [NanmiCoder/MediaCrawler](https://github.com/NanmiCoder/MediaCrawler) | Douyin / Xiaohongshu / Zhihu / Bilibili collection |
+| [vladkens/twscrape](https://github.com/vladkens/twscrape) | Twitter/X search and reply capture |
+| [yt-dlp/yt-dlp](https://github.com/yt-dlp/yt-dlp) | YouTube / Bilibili subtitle fetching and video download |
+| [xpzouying/xiaohongshu-mcp](https://github.com/xpzouying/xiaohongshu-mcp) | Fast Xiaohongshu search (optional) |
+| Alibaba Cloud Bailian fun-asr | Video speech transcription (optional, pay-as-you-go) |
 
-## 📁 仓库结构
+## 📁 Repository layout
 
 ```
 research-anything/
-├── SKILL.md               # skill 入口：流程与铁律
-├── references/            # 各阶段执行规程 + 8 个渠道的操作文档
+├── SKILL.md               # Skill entry: pipeline and iron rules
+├── references/            # Stage-by-stage procedures + 8 channel playbooks
 │   └── channels/
-└── scripts/               # 采集编排、日志校验、转写/OCR、报告配图等脚本（含测试）
+└── scripts/               # Collection orchestration, log validation, ASR/OCR, report assets (with tests)
 ```
 
 ---
 
-<p align="center">觉得有用的话，点个 ⭐ 让更多人看到。</p>
+<p align="center">If this is useful, drop a ⭐ so more people can find it.</p>
