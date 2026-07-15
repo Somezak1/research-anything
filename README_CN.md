@@ -17,6 +17,14 @@
 </p>
 
 <p align="center">
+  <img alt="Claude Code" src="https://img.shields.io/badge/Claude%20Code-skill-blueviolet?style=flat-square" />
+  <img alt="渠道" src="https://img.shields.io/badge/%E8%B0%83%E7%A0%94%E6%B8%A0%E9%81%93-8%20%E4%B8%AA-orange?style=flat-square" />
+  <img alt="macOS" src="https://img.shields.io/badge/macOS-%E5%B7%B2%E5%AE%9E%E6%B5%8B-lightgrey?style=flat-square" />
+  <img alt="耗时" src="https://img.shields.io/badge/%E4%B8%80%E6%AC%A1%E8%B0%83%E7%A0%94-30%E2%80%9360%20min-green?style=flat-square" />
+  <img alt="结论" src="https://img.shields.io/badge/%E6%AF%8F%E4%B8%AA%E7%BB%93%E8%AE%BA-%E5%B8%A6%E5%87%BA%E5%A4%84-1abc9c?style=flat-square" />
+</p>
+
+<p align="center">
   <a href="#-为什么和ai-搜一圈不一样">为什么不一样</a> •
   <a href="#-一次调研是怎么跑完的">它怎么跑</a> •
   <a href="#-快速开始">快速开始</a> •

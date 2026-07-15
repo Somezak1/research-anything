@@ -17,6 +17,14 @@
 </p>
 
 <p align="center">
+  <img alt="Claude Code" src="https://img.shields.io/badge/Claude%20Code-skill-blueviolet?style=flat-square" />
+  <img alt="Channels" src="https://img.shields.io/badge/research%20channels-8-orange?style=flat-square" />
+  <img alt="macOS" src="https://img.shields.io/badge/macOS-tested-lightgrey?style=flat-square" />
+  <img alt="Duration" src="https://img.shields.io/badge/one%20run-30%E2%80%9360%20min-green?style=flat-square" />
+  <img alt="Cited" src="https://img.shields.io/badge/every%20claim-cited-1abc9c?style=flat-square" />
+</p>
+
+<p align="center">
   <a href="#-warum-es-anders-ist-als-ki-such-mal-für-mich">Warum es anders ist</a> •
   <a href="#-so-läuft-ein-recherche-durchlauf-ab">So funktioniert es</a> •
   <a href="#-schnellstart">Schnellstart</a> •
