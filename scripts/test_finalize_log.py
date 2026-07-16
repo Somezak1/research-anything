@@ -1,5 +1,7 @@
 import json
+import os
 import pytest
+import finalize_log as F
 from finalize_log import finalize
 
 
@@ -53,3 +55,22 @@ def test_first_line_not_meta_fails(tmp_path):
     path = _write(tmp_path, [_F])
     with pytest.raises(SystemExit):
         finalize(path)
+
+
+def test_malformed_finding_refuses_without_modifying_file(tmp_path):
+    path = tmp_path / "findings.xiaohongshu.jsonl"
+    original = json.dumps(_META0) + "\n{broken\n"
+    path.write_text(original)
+    with pytest.raises(SystemExit, match="第2行 JSON 损坏"):
+        finalize(str(path))
+    assert path.read_text() == original
+
+
+def test_replace_failure_keeps_original(monkeypatch, tmp_path):
+    path = _write(tmp_path, [_META0, _F])
+    original = open(path, encoding="utf-8").read()
+    monkeypatch.setattr(F.os, "replace", lambda *_: (_ for _ in ()).throw(OSError("crash")))
+    with pytest.raises(OSError, match="crash"):
+        finalize(path)
+    assert open(path, encoding="utf-8").read() == original
+    assert not list(tmp_path.glob(".findings.*.tmp"))

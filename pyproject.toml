@@ -1,0 +1,10 @@
+[project]
+name = "research-anything"
+version = "3.0.0"
+description = "Evidence-gated research workflow for Claude Code"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["scripts"]
+python_files = ["test_*.py"]
+addopts = "-q"

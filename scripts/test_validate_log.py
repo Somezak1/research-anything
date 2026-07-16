@@ -175,6 +175,41 @@ def test_malformed_json_line(tmp_path):
     assert any("不是合法 JSON" in p for p in problems)
 
 
+def test_meta_and_finding_must_be_objects(tmp_path):
+    meta_path = tmp_path / "meta-list.jsonl"
+    meta_path.write_text("[]\n", encoding="utf-8")
+    assert any("meta 必须是 JSON 对象" in problem for problem in validate_file(str(meta_path)))
+
+    finding_path = tmp_path / "finding-list.jsonl"
+    finding_path.write_text(json.dumps(_META) + "\n[]\n", encoding="utf-8")
+    assert any("finding 必须是 JSON 对象" in problem for problem in validate_file(str(finding_path)))
+
+
+def test_required_field_types_urls_and_timestamps_are_validated(tmp_path):
+    bad = dict(
+        _FINDING,
+        ts="not-a-date",
+        tool=[],
+        source_url=7,
+        title=[],
+        headline="x" * 121,
+        note={},
+        metrics=[],
+        content="   ",
+        raw="not-an-object",
+    )
+    path = _write(tmp_path, "bad-types.jsonl", [_META, bad])
+    problems = validate_file(path)
+    for field in ("ts", "tool", "source_url", "title", "note", "content", "metrics", "raw", "headline"):
+        assert any(field in problem for problem in problems), (field, problems)
+
+
+def test_explicit_truncation_marker_is_rejected(tmp_path):
+    bad = dict(_FINDING, raw={"readme_truncated": True})
+    path = _write(tmp_path, "truncated.jsonl", [_META, bad])
+    assert any("内容被截断" in problem for problem in validate_file(path))
+
+
 def test_missing_channel_reported(tmp_path):
     _write(tmp_path, "findings.xiaohongshu.jsonl", [_META, _FINDING])
     problems = missing_channel_problems(str(tmp_path), ["xiaohongshu", "douyin"])

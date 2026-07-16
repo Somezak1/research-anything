@@ -10,7 +10,7 @@ finding. Logs without schema_version keep the legacy validation rules.
 With --channels, also fails when an expected channel file is missing entirely
 (a channel agent that died before ever writing must not be silently skipped).
 """
-import argparse, glob, json, os, re
+import argparse, datetime, glob, json, os, re
 from urllib.parse import urlparse
 
 # Required on every finding record (see log-format.md field table).
@@ -25,10 +25,11 @@ PREFIX = {"douyin": "dy", "xiaohongshu": "xhs", "zhihu": "zh", "bilibili": "bili
 
 SOCIAL_CHANNELS = {"douyin", "xiaohongshu", "zhihu", "bilibili", "youtube", "twitter"}
 VIDEO_CHANNELS = {"bilibili", "youtube"}
-VIDEO_STATUSES = {"not_present", "subtitle", "asr", "failed"}
-COMMENT_STATUSES = {"captured", "not_available", "failed", "not_applicable"}
-IMAGE_STATUSES = {"not_present", "ocr", "failed", "not_applicable"}
-LICENSE_STATUSES = {"verified", "unknown", "not_applicable"}
+VIDEO_STATUSES = {"not_present", "subtitle", "asr", "failed", "skipped_by_budget", "skipped_by_risk"}
+COMMENT_STATUSES = {"captured", "not_available", "failed", "not_applicable", "skipped_by_budget", "skipped_by_risk"}
+IMAGE_STATUSES = {"not_present", "ocr", "failed", "not_applicable", "skipped_by_budget", "skipped_by_risk"}
+LICENSE_STATUSES = {"verified", "unknown", "not_applicable", "skipped_by_budget", "skipped_by_risk"}
+CONTENT_SOURCES = {"post", "page", "subtitle", "asr", "comments", "ocr", "readme", "license"}
 DISCOVERY_ROUTES = ("keyword", "category", "related")
 LICENSE_NAME = re.compile(r"^(?:licen[cs]e|copying)(?:[._-].*)?$", re.IGNORECASE)
 FINDINGS_FILENAME = re.compile(r"^findings\.([^.]+)\.jsonl$")
@@ -58,6 +59,35 @@ def _is_nonnegative_int(value: object) -> bool:
 
 def _is_nonnegative_number(value: object) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool) and value >= 0
+
+
+def _valid_timestamp(value: object) -> bool:
+    if not isinstance(value, str) or not value.strip():
+        return False
+    try:
+        datetime.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    return True
+
+
+def _valid_http_url(value: object) -> bool:
+    if not isinstance(value, str) or not value.strip():
+        return False
+    parsed = urlparse(value)
+    return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
+
+
+def _contains_truncation_marker(value: object) -> bool:
+    if isinstance(value, dict):
+        for key, child in value.items():
+            if str(key).lower() in {"truncated", "readme_truncated", "content_truncated"} and child is True:
+                return True
+            if _contains_truncation_marker(child):
+                return True
+    elif isinstance(value, list):
+        return any(_contains_truncation_marker(item) for item in value)
+    return False
 
 
 def _out_dir_for_log(path: str) -> str:
@@ -346,11 +376,20 @@ def validate_capture_v2(path: str, line_no: int, rec: dict,
     if (not isinstance(sources, list) or not sources
             or any(not isinstance(source, str) or not source.strip() for source in sources)):
         problems.append(f"第{line_no}行：capture.content_sources 必须是非空字符串数组")
+    elif any(source not in CONTENT_SOURCES for source in sources):
+        unknown = sorted(set(sources) - CONTENT_SOURCES)
+        problems.append(f"第{line_no}行：capture.content_sources 含未知来源：{unknown}")
+    elif len(set(sources)) != len(sources):
+        problems.append(f"第{line_no}行：capture.content_sources 不得重复")
 
     video = _validate_status_record(line_no, capture, "video", VIDEO_STATUSES, problems)
     comments = _validate_status_record(line_no, capture, "comments", COMMENT_STATUSES, problems)
     images = _validate_status_record(line_no, capture, "images", IMAGE_STATUSES, problems)
     license_record = _validate_status_record(line_no, capture, "license", LICENSE_STATUSES, problems)
+
+    for label, record in (("video", video), ("comments", comments), ("images", images), ("license", license_record)):
+        if record is not None and record.get("status") in {"skipped_by_budget", "skipped_by_risk"} and not _has_reason(record):
+            problems.append(f"第{line_no}行：capture.{label}.{record.get('status')} 时必须填写 reason")
 
     if video is not None:
         if not isinstance(video.get("present"), bool):
@@ -377,8 +416,8 @@ def validate_capture_v2(path: str, line_no: int, rec: dict,
         if video_required:
             if video.get("present") is not True:
                 problems.append(f"第{line_no}行：该视频 finding 的 capture.video.present 必须为 true")
-            if video.get("status") not in {"subtitle", "asr", "failed"}:
-                problems.append(f"第{line_no}行：该视频必须取得字幕、完成 ASR，或以 failed 记录原因")
+            if video.get("status") not in {"subtitle", "asr", "failed", "skipped_by_budget", "skipped_by_risk"}:
+                problems.append(f"第{line_no}行：该视频必须取得字幕、完成 ASR，或明确记录失败/预算/风险跳过原因")
 
     if comments is not None:
         if not _is_nonnegative_int(comments.get("count")):
@@ -389,8 +428,8 @@ def validate_capture_v2(path: str, line_no: int, rec: dict,
                 and _is_nonnegative_int(comments.get("count")) and comments["count"] != 0):
             problems.append(f"第{line_no}行：capture.comments 非 captured 状态时 count 必须为 0")
         if meta_channel in SOCIAL_CHANNELS and comments.get("status") not in {
-                "captured", "failed", "not_available"}:
-            problems.append(f"第{line_no}行：社交渠道必须抓取评论，或记录 failed/not_available 及原因")
+                "captured", "failed", "not_available", "skipped_by_budget", "skipped_by_risk"}:
+            problems.append(f"第{line_no}行：社交渠道必须抓取评论，或记录不可用/失败/预算/风险原因")
         if (meta_channel in SOCIAL_CHANNELS and comments.get("status") == "captured"
                 and not (_is_nonnegative_int(comments.get("count"))
                          and 1 <= comments["count"] <= 10)):
@@ -431,8 +470,8 @@ def validate_capture_v2(path: str, line_no: int, rec: dict,
             expected_total = _xhs_expected_image_count(rec)
             if images.get("present") is not True:
                 problems.append(f"第{line_no}行：小红书图片 finding 的 capture.images.present 必须为 true")
-            if images.get("status") not in {"ocr", "failed"}:
-                problems.append(f"第{line_no}行：小红书图片必须完成 OCR，或以 failed 记录原因")
+            if images.get("status") not in {"ocr", "failed", "skipped_by_budget", "skipped_by_risk"}:
+                problems.append(f"第{line_no}行：小红书图片必须完成 OCR，或明确记录失败/预算/风险原因")
             if not valid_counts or total == 0:
                 problems.append(f"第{line_no}行：小红书图片必须记录有效的 processed/total 数量")
             elif expected_total == 0:
@@ -488,6 +527,8 @@ def validate_file(path: str, manifest_path: str | None = None) -> list:
         meta = json.loads(lines[0])
     except json.JSONDecodeError as e:
         return [f"第1行不是合法 JSON：{e}"]
+    if not isinstance(meta, dict):
+        return ["第1行 meta 必须是 JSON 对象"]
     if meta.get("type") != "meta":
         problems.append("第1行的 type 必须是 'meta'")
     for k in META_REQUIRED:
@@ -522,8 +563,14 @@ def validate_file(path: str, manifest_path: str | None = None) -> list:
         elif len(set(queries)) != len(queries):
             problems.append("schema v2 meta.queries 不得重复")
         for key in ("started", "finished"):
-            if not isinstance(meta.get(key), str) or not meta[key].strip():
-                problems.append(f"schema v2 meta.{key} 必须是非空字符串")
+            if not _valid_timestamp(meta.get(key)):
+                problems.append(f"schema v2 meta.{key} 必须是 ISO-8601 时间戳")
+        if _valid_timestamp(meta.get("started")) and _valid_timestamp(meta.get("finished")):
+            try:
+                if datetime.datetime.fromisoformat(meta["finished"].replace("Z", "+00:00")) < datetime.datetime.fromisoformat(meta["started"].replace("Z", "+00:00")):
+                    problems.append("schema v2 meta.finished 不得早于 started")
+            except TypeError:
+                problems.append("schema v2 meta.started/finished 时区格式不可比较")
         for key in ("failures", "skipped"):
             value = meta.get(key)
             if (not isinstance(value, list)
@@ -588,6 +635,9 @@ def validate_file(path: str, manifest_path: str | None = None) -> list:
         except json.JSONDecodeError as e:
             problems.append(f"第{i}行不是合法 JSON：{e}")
             continue
+        if not isinstance(rec, dict):
+            problems.append(f"第{i}行：finding 必须是 JSON 对象")
+            continue
         rtype = rec.get("type")
         if rtype == "meta":
             problems.append(f"第{i}行：meta 只能出现在第1行")
@@ -605,8 +655,31 @@ def validate_file(path: str, manifest_path: str | None = None) -> list:
         if source_repo:
             finding_repos.add(source_repo)
         for k in FINDING_REQUIRED:
-            if k not in rec or rec[k] in (None, ""):
+            if k not in rec or rec[k] in (None, "") or (isinstance(rec[k], str) and not rec[k].strip()):
                 problems.append(f"第{i}行 finding 缺字段或为空：{k}")
+        for key in ("id", "ts", "channel", "tool", "query", "source_url", "title", "headline", "note", "content"):
+            if key in rec and (not isinstance(rec[key], str) or not rec[key].strip()):
+                problems.append(f"第{i}行：finding.{key} 必须是非空字符串")
+        if isinstance(rec.get("ts"), str) and not _valid_timestamp(rec["ts"]):
+            problems.append(f"第{i}行：finding.ts 必须是 ISO-8601 时间戳")
+        if isinstance(rec.get("source_url"), str) and not _valid_http_url(rec["source_url"]):
+            problems.append(f"第{i}行：finding.source_url 必须是 http/https URL")
+        if isinstance(rec.get("headline"), str) and len(rec["headline"]) > 120:
+            problems.append(f"第{i}行：finding.headline 超过 120 字符")
+        if "metrics" in rec and not isinstance(rec["metrics"], dict):
+            problems.append(f"第{i}行：finding.metrics 必须是对象")
+        if "raw" in rec and not isinstance(rec["raw"], dict):
+            problems.append(f"第{i}行：finding.raw 必须是对象")
+        if "unknown_terms" in rec and (
+                not isinstance(rec["unknown_terms"], list)
+                or any(not isinstance(term, str) or not term.strip() for term in rec["unknown_terms"])):
+            problems.append(f"第{i}行：finding.unknown_terms 必须是字符串数组")
+        if "media" in rec and (
+                not isinstance(rec["media"], list)
+                or any(not isinstance(item, dict) for item in rec["media"])):
+            problems.append(f"第{i}行：finding.media 必须是对象数组")
+        if _contains_truncation_marker(rec):
+            problems.append(f"第{i}行：finding 明确标记内容被截断，违反完整证据契约")
         fid = rec.get("id")
         if fid:
             if fid in seen_ids:

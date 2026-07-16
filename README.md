@@ -1,185 +1,245 @@
-<h1 align="center">🔍 research-anything</h1>
+<h1 align="center">research-anything</h1>
 
-<p align="center"><b>Give it an idea. Get back a plan.</b></p>
+<p align="center"><b>Evidence-gated research for decisions that may reach production.</b></p>
 
-<p align="center">An all-channel research skill for Claude Code — it sweeps 8 channels for first-hand practices, dispatches sub agents to verify what it doesn't know, and converges everything into <b>one actionable plan that fits your situation</b> — not a laundry list of options.</p>
-
-<p align="center">
-  <a href="README.md"><img alt="English" src="https://img.shields.io/badge/English-blueviolet?style=flat-square"></a>
-  <a href="README_CN.md"><img alt="简体中文" src="https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-e74c3c?style=flat-square"></a>
-  <a href="README_JA.md"><img alt="日本語" src="https://img.shields.io/badge/%E6%97%A5%E6%9C%AC%E8%AA%9E-f39c12?style=flat-square"></a>
-  <a href="README_KO.md"><img alt="한국어" src="https://img.shields.io/badge/%ED%95%9C%EA%B5%AD%EC%96%B4-green?style=flat-square"></a>
-  <a href="README_ES.md"><img alt="Español" src="https://img.shields.io/badge/Espa%C3%B1ol-1abc9c?style=flat-square"></a>
-  <a href="README_FR.md"><img alt="Français" src="https://img.shields.io/badge/Fran%C3%A7ais-0969da?style=flat-square"></a>
-  <a href="README_DE.md"><img alt="Deutsch" src="https://img.shields.io/badge/Deutsch-607d8b?style=flat-square"></a>
-  <a href="README_PT.md"><img alt="Português" src="https://img.shields.io/badge/Portugu%C3%AAs-ff6b35?style=flat-square"></a>
-  <a href="README_RU.md"><img alt="Русский" src="https://img.shields.io/badge/%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9-5865f2?style=flat-square"></a>
-</p>
+<p align="center">A Claude Code skill that can start from a vague question, discover the real decision space, ask for the constraints you could not know in advance, and stop weak evidence from becoming a confident recommendation.</p>
 
 <p align="center">
-  <a href="#-why-its-different-from-ai-go-search-for-me">Why it's different</a> •
-  <a href="#-how-a-research-run-unfolds">How it works</a> •
-  <a href="#-quick-start">Quick start</a> •
-  <a href="#-first-time-setup-once">First-time setup</a> •
-  <a href="#-usage">Usage</a> •
-  <a href="#-what-each-channel-yields">Channels</a> •
-  <a href="#-faq">FAQ</a>
+  <a href="README.md">English</a> ·
+  <a href="README_CN.md">简体中文</a> ·
+  <a href="README_JA.md">日本語</a> ·
+  <a href="README_KO.md">한국어</a> ·
+  <a href="README_ES.md">Español</a> ·
+  <a href="README_FR.md">Français</a> ·
+  <a href="README_DE.md">Deutsch</a> ·
+  <a href="README_PT.md">Português</a> ·
+  <a href="README_RU.md">Русский</a>
 </p>
 
----
+> research-anything is built for questions such as "How should we produce an AI comic drama?" where the requester does not yet know which constraints matter. It researches before forcing premature choices, preserves the evidence behind every conclusion, and is allowed to say that a production decision is not ready.
 
-> **The state of the art shouldn't stay locked inside feeds you never scroll.**
-> The practices that actually work are scattered across Douyin and Xiaohongshu videos, Bilibili deep-dive reviews, Zhihu long-form answers, GitHub issues, and X threads — places ordinary web search can't reach, and where AI training data has long gone stale. Build in isolation and you often find out too late that your approach is generations behind.
->
-> research-anything hardens the whole pipeline — **sweep every channel → verify the evidence → converge on a plan** — into a single Claude Code skill. One sentence to trigger, 30–60 minutes to finish.
+## What v3 changes
 
-<p align="center">📱 Douyin · 📕 Xiaohongshu (RED) · 💬 Zhihu · 📺 Bilibili · ▶️ YouTube · 🐙 GitHub · 🐦 Twitter(X) · 🌐 General web</p>
+Ordinary research agents tend to collect many links and then compress them into a plausible answer. v3 treats research as an auditable decision process:
 
-## ✨ Why it's different from "AI, go search for me"
+1. **Start from the user's actual request.** The original wording is stored verbatim, without an agent rewriting it into a more convenient requirement.
+2. **Probe broadly.** Douyin, Xiaohongshu, Zhihu, Bilibili, YouTube, GitHub, X/Twitter, and the general web form the current discovery layer. They are probes, not a claim that eight platforms equal complete coverage.
+3. **Deepen adaptively.** Research effort follows new candidates, contradictions, independent evidence, freshness, and decision-critical gaps instead of giving every channel the same fixed quota.
+4. **Explain, then ask.** Claude explains unfamiliar terms, the candidate landscape, corroborated findings, disputes, and unknowns before asking the few questions that would materially change the choice.
+5. **Research again when constraints change the answer.** A newly discovered budget, latency, licensing, accessibility, safety, or operating constraint triggers targeted second-pass research. The first search is not treated as final evidence for a newly narrowed problem.
+6. **Apply a production gate.** A recommendation is released as `production-ready`, `pilot-only`, or `blocked`. Missing critical evidence cannot be hidden behind a polished report.
 
-| | The usual "AI, do some research" | research-anything |
-|---|---|---|
-| **Sources** | Stale training data + a few shallow web searches | First-hand content from 8 channels, including short-video and community posts that web search can't reach |
-| **Videos & images** | Can't watch them; reads titles and blurbs only | Pulls subtitles / transcribes full speech, OCRs images, captures top comments — everything enters the evidence |
-| **Unfamiliar terms** | Guesses from the surface | Dispatches one sub agent per term to verify it (what it is / who made it / when it shipped / what it supersedes), then assembles a generational timeline of the field |
-| **Key numbers & claims** | Repeats them, true or not | Spot-checks each one: facts against official sources, quality claims against independent word-of-mouth; vendor self-praise gets labeled; the unverifiable is marked "unverified" |
-| **When your needs are vague** | Interrogates you about goals and budget upfront | Surveys the landscape first, then comes back with real information to help you figure out what you actually need |
-| **Final deliverable** | N parallel options — you still have to choose | **One** default path + switch conditions, down to step/command level, every conclusion cited |
+The eight channels are only the broad discovery layer. Each domain profile also requires the appropriate primary sources. Technical selection, for example, must check official documentation, papers or model cards, repositories and issues, independent benchmarks, current pricing, security, and licensing. Travel research must check current operator, booking, transport, weather, and official destination information. High-risk domains have stricter boundaries.
 
-Two of those, expanded:
-
-**🧠 It knows what it doesn't know — and goes to fill the gaps.** The most common failure of AI research is training data frozen in the past: recommending an approach that's generations behind without realizing it. While reading through its notes, research-anything dispatches an independent sub agent for every unfamiliar term, new tool, or new model (including things newer than its training data) to verify it on the spot, then orders everything by release date into a generational timeline — before recommending anything, it checks which generation that thing stands on.
-
-**🌫️→🎯 Requirements can come in vague and leave sharp.** Both of these work:
-
-> 😶‍🌫️ Vague: "A weekend 3-day, 2-night Beijing itinerary"
->
-> 📋 Constrained: "A weekend 3-day, 2-night Beijing itinerary — 3 adults + a 2-year-old + an 80-year-old, self-driving, hotel budget under ¥1,000 per room per night"
-
-Given a vague request, it won't interrogate you upfront (you can't answer well yet anyway). It surveys what's out there first, then comes back to align with you: it explains every term that will appear in the plan, lists the key conclusions independently corroborated by multiple sources, and asks only the few questions that genuinely change the trade-offs. **The research process itself helps you figure out what you need.**
-
-## 🔄 How a research run unfolds
+## Workflow
 
 ```mermaid
 flowchart LR
-    A["💡 Your idea<br/>(vague or constrained)"] --> B["📋 Collection plan<br/>awaits your approval"]
-    B --> C["🕸️ 8 channels collected in parallel<br/>+ independent evidence audit"]
-    C --> D["🧠 Reads every note<br/>agents verify terms & claims"]
-    D --> E["💬 Aligns with you<br/>explains · corroborates · asks"]
-    E --> F["📦 report.html<br/>+ runbook.json"]
+    A["Vague or constrained request"] --> B["Broad probes"]
+    B --> C["Adaptive deepening"]
+    C --> D["Evidence map and candidate registry"]
+    D --> E["Explain, ask, confirm decision contract"]
+    E --> F["Targeted second research when needed"]
+    F --> G["Evidence and production gate"]
+    G --> H["Decision, report, and typed runbook"]
 ```
 
-From the moment you state your idea: it first confirms one thing only — that it hasn't misread the research direction — without grilling you on goals and budgets you can't answer yet. Then it hands you a **collection plan** (channels × keywords × depth × estimated time/cost). Once you tweak and approve it, 8 channels start in parallel: one collector agent per channel searches for real content and files distilled notes to disk, then an independent audit agent completes the evidence item by item — video transcripts, top comments, image text, open-source licenses. Anything below the bar gets caught by validators and redone, never silently fudged.
+Research time is intentionally not promised as "30–60 minutes." A run may be short when the evidence is simple and accessible, or take hours when video transcription, access failures, conflicting sources, user clarification, or a representative proof of concept is required. The exported manifest records actual state and costs rather than a marketing estimate.
 
-After collection, the main agent personally reads every note, dispatching a swarm of sub agents in parallel to verify unfamiliar terms and load-bearing claims. Before proposing anything it explains first, asks second: a glossary walkthrough, the cross-corroborated conclusions, and a few key trade-off questions. Finally it writes two deliverables into your project — a report for humans and a runbook for AI — with every conclusion traceable back to its source post.
+## Readiness states
 
-## 🚀 Quick start
+| State | Meaning |
+|---|---|
+| `production-ready` | The decision contract is explicitly confirmed, every critical claim has sufficient traceable evidence, all findings are consumed or excluded, budgets are settled, and the production-relevant validation is complete. |
+| `pilot-only` | There is a credible candidate, but quality, integration, performance, operations, or another material condition still needs a bounded proof of concept. It is not a production recommendation. |
+| `blocked` | A critical requirement, permission, source, license, safety fact, budget, or piece of evidence is missing or contradictory. The output contains the smallest actions needed to unblock the decision, not a fabricated default. |
 
-**Prerequisites**: You already use [Claude Code](https://claude.com/claude-code) (the skill relies on its sub-agent / Workflow orchestration); macOS (tested).
+The gate can downgrade a requested status. The report renderer cannot upgrade it.
 
-Paste the whole block below to Claude Code (or Codex) and let it do the legwork:
+## Durable, auditable state
+
+Each v3 run uses `research.db` as its canonical SQLite/WAL state store. JSON and JSONL files are immutable-style exports for inspection and delivery; they are not edited as workflow state.
+
+Typical output under `docs/research/<topic>/`:
+
+| File | Purpose |
+|---|---|
+| `research.db` | Resumable source of truth for events, approved plan revisions, findings, candidates, claims, evidence clusters, attempts, budgets, decisions, and deliveries. |
+| `manifest.v3.json` | Run identity, profile, gate result, counts, budget totals, and generation time. |
+| `events.jsonl` | Append-only conversation and system events. User utterances are preserved exactly in `verbatim`, separately from agent interpretation. |
+| `plan.json` / `plan-revisions.jsonl` | Validated eight-entry search scope, estimates, hard budgets, approval-event binding, and append-only plan history. |
+| `findings.jsonl` | Stable-fingerprint per-item notes and their consumed/excluded disposition. |
+| `finding-revisions.jsonl` | Append-only history of note/content revisions; a changed finding returns to pending review. |
+| `candidates.jsonl` / `artifacts.jsonl` | Canonical selectable candidates and content-addressed evidence artifacts. A production POC must reference a real hashed `poc-result` file. |
+| `claims.jsonl` | Atomic decision claims and their evidence sufficiency. |
+| `evidence-clusters.jsonl` | Independent-source groupings so reposts and common upstream sources are not counted as separate corroboration. |
+| `attempts.jsonl` | ASR and other metered attempts, including reservations, provider task IDs, final charges, and unknown outcomes. |
+| `decision.json` | The single machine-readable source for constraints, readiness, recommendation, alternatives, gaps, and proof-of-concept requirements. |
+| `decision-revisions.jsonl` | Append-only decision history tied to the plan revision used for each decision. |
+| `report.html` | Escaped, human-readable report rendered from the current decision. |
+| `runbook.json` | Typed `implementation`, `itinerary`, `forecast`, or `research-only` runbook rendered from the same decision. |
+| `delivery-manifest.json` | File hashes and delivery revision used to detect stale or inconsistent output. |
+
+Interrupted runs resume from the database, note cursor, and attempt journal. Retries create new attempts and preserve history; they do not delete an entire channel's evidence.
+
+The structured decision contract is also integrity-bound: the exact JSON shown by the main agent is recorded before the user's separate confirmation, and both event IDs are part of the immutable decision revision.
+
+## Hard ASR budgets and idempotency
+
+Paid speech-to-text is disabled by default because a new run starts with a zero ASR duration and cost limit unless an explicit numeric budget is recorded.
+
+Before any metered request, v3 atomically reserves both duration and money. The provider result then settles, releases, or marks that reservation `unknown`. Concurrent calls cannot reserve beyond the configured limits, and an unresolved charge continues to hold budget. A media fingerprint plus model/options request fingerprint makes retries idempotent even when a platform changes its signed CDN URL.
+
+This is a hard accounting boundary, not a prompt asking the agent to remember a budget.
+
+## Quick start
+
+### Requirements
+
+- [Claude Code](https://claude.com/claude-code). v3 currently targets Claude Code only.
+- Python 3.11 or newer.
+- Git.
+- Optional channel tools and accounts only for the capabilities you choose to enable.
+
+### Install
+
+```bash
+git clone https://github.com/Somezak1/research-anything.git ~/research-anything
+cd ~/research-anything
+
+# Inspect Claude Code, Python, installation sync, and optional connectors.
+python3 scripts/install_skill.py doctor
+
+# Install the canonical runtime bundle into ~/.claude/skills/research-anything.
+python3 scripts/install_skill.py install
+
+# Verify that the installed bundle matches this checkout.
+python3 scripts/install_skill.py check
+```
+
+`install` refuses to overwrite a different existing copy. After inspecting the difference, update with a timestamped backup:
+
+```bash
+cd ~/research-anything
+git pull
+python3 scripts/install_skill.py check
+python3 scripts/install_skill.py install --force
+python3 scripts/install_skill.py check
+```
+
+Set `CLAUDE_SKILLS_DIR` to change the skills parent directory, or pass `--target`. Set `RESEARCH_TOOLS_DIR` if optional connectors live somewhere other than `~/tools`:
+
+```bash
+export RESEARCH_TOOLS_DIR="$HOME/my-research-tools"
+python3 scripts/install_skill.py doctor
+```
+
+The doctor reports capability gaps; it does not silently install, log in to, or authorize third-party collectors.
+
+## Use
+
+Open a fresh Claude Code session in the project that should receive the research output and state the real question. Explicitly naming the skill is useful when the request could be interpreted as ordinary web search:
 
 ```text
-Please install and configure research-anything (a Claude Code research skill) step by step:
-
-1. Clone the skill itself:
-   git clone https://github.com/Somezak1/research-anything.git ~/.claude/skills/research-anything
-
-2. Create the tools directory ~/tools/ and install the collectors
-   (the skill's docs assume every tool lives under ~/tools/):
-   - git clone https://github.com/NanmiCoder/MediaCrawler.git ~/tools/MediaCrawler
-     and install its dependencies with uv per its README
-     (used to collect Douyin / Xiaohongshu / Zhihu / Bilibili)
-   - Install yt-dlp: brew install yt-dlp (for YouTube/Bilibili subtitle fetching)
-
-3. Make sure Claude Code has the GitHub MCP (official github plugin / MCP server)
-   configured; set it up if not
-   (the GitHub channel relies on it to search repos and read READMEs and LICENSEs)
-
-4. (Optional — only if you want the Twitter channel) Create a dedicated uv venv under
-   ~/tools/twscrape and install twscrape (https://github.com/vladkens/twscrape)
-
-5. (Optional — fast Xiaohongshu search) Install https://github.com/xpzouying/xiaohongshu-mcp
-   to ~/tools/xiaohongshu-mcp and register it in Claude Code's MCP config
-   (skipping is fine: Xiaohongshu falls back to MediaCrawler)
-
-When done, report success/failure item by item, and tell me how to fix the failures manually.
+Use research-anything to investigate how to produce an AI comic drama for a real
+product. I do not yet know which workflow or constraints matter. Research the
+landscape first, explain the trade-offs, and help me choose.
 ```
 
-> 💡 The tools directory must be `~/tools/` (every command in the skill's docs is written against it). Already installed elsewhere? Just symlink: `ln -s <your tools dir> ~/tools`.
+A constrained request works too:
 
-## 🔑 First-time setup (once)
-
-These steps involve QR-code logins and account credentials — the AI can't stand in for you, but each is one-time:
-
-| Step | What to do | If skipped |
-|---|---|---|
-| 📲 Four-platform login (**required**) | Under `~/tools/MediaCrawler`, run one search per platform (e.g. `uv run main.py --platform xhs --type search --keywords "test"`) and scan the QR code in the browser it opens. Login state persists; runs unattended afterwards | Those platforms fail to collect |
-| 🐦 Twitter (optional) | Use a **burner account** (never your main), log in via browser, grab the `auth_token` + `ct0` cookies, then run `~/tools/twscrape/.venv/bin/twscrape add_cookie <user> 'auth_token=...; ct0=...'` | Twitter channel reports failure; everything else runs |
-| 📺 Bilibili subtitle cookie (optional) | Export your Bilibili cookies to `~/tools/bili_cookies.txt` (Netscape format, e.g. via the Get cookies.txt LOCALLY extension) | Bilibili videos fall back to paid transcription or report failure |
-| 🎙️ Paid speech-to-text (optional) | Enable fun-asr on Alibaba Cloud Bailian (~¥0.8/hour, free tier included), then add `export DASHSCOPE_API_KEY=your_key` to `~/.zshrc` | Douyin/Xiaohongshu videos can't be transcribed; text and comments only |
-
-Every optional item follows one principle: **whatever is missing, the corresponding capability degrades honestly and is disclosed in the report — never silently papered over.**
-
-## 🎬 Usage
-
-Open Claude Code in any project and just say what you're thinking — it triggers automatically:
-
-> 💬 I want to make AI comic dramas — research the mature approaches on the market
-
-> 💬 A weekend 3-day, 2-night Beijing itinerary — 3 adults + a 2-year-old + an 80-year-old, self-driving, hotel budget under ¥1,000 per room per night
-
-When the run finishes, you'll find under `docs/research/<topic>/` in your project:
-
-| Deliverable | Purpose |
-|---|---|
-| 📄 `report.html` | For humans: executive summary, generational timeline, per-channel landscape, default plan + switch conditions, comparison matrix, all sources |
-| 🤖 `runbook.json` | For AI: command-level steps, fallback conditions, verified / unverified / to-test lists |
-| 🗂️ `raw/` `verify/` `qa.md` | Every raw note, verification verdict, and Q&A transcript — every conclusion traces back to its source |
-
-## 🕸️ What each channel yields
-
-| Channel | Collector | Evidence captured |
-|---|---|---|
-| 📱 Douyin | MediaCrawler | Full speech transcripts + top comments + engagement metrics |
-| 📕 Xiaohongshu | MediaCrawler / xiaohongshu-mcp | Post text + image OCR + video transcripts + top comments |
-| 💬 Zhihu | MediaCrawler | Full answers/articles (hundreds to tens of thousands of words) + top comments |
-| 📺 Bilibili | MediaCrawler + yt-dlp | AI subtitle full text (free) / transcription + top comments + danmaku heat |
-| ▶️ YouTube | yt-dlp | Subtitle full text, fetched directly (free) + comments |
-| 🐙 GitHub | GitHub MCP | README actually read + stars/activity + **real root-level LICENSE check** + issue mining |
-| 🐦 Twitter(X) | twscrape | Tweets + threads + reply text + video subtitles/transcription |
-| 🌐 General web | WebSearch / tavily | Official docs, pricing pages, long-form comparisons (for cross-validation) |
-
-## ❓ FAQ
-
-**Does it cost money?** The only step that can cost anything is optional paid speech-to-text (~¥0.8/hour), and it never runs without your explicit approval of a numeric cap. Everything else is free (it runs on the Claude Code subscription you already have).
-
-**What if a channel is unreachable or unconfigured?** Honest degradation: that channel reports its failure reason, the rest keep running, and the report's appendix discloses hit/failure counts per channel and per keyword — coverage is never silently faked.
-
-**Windows / Linux?** Only macOS is tested so far (image OCR uses a macOS system capability). Other platforms need a replacement OCR script — PRs welcome.
-
-**Is it compliant?** Collected content is for personal research only; respect each platform's terms of service. The skill has built-in rate-limiting and anti-risk constraints; use a burner account for Twitter. All login state, cookies, and API keys stay on your machine — **this repository contains no credentials**.
-
-## 🙏 Standing on the shoulders of
-
-| Project | Role here |
-|---|---|
-| [NanmiCoder/MediaCrawler](https://github.com/NanmiCoder/MediaCrawler) | Douyin / Xiaohongshu / Zhihu / Bilibili collection |
-| [vladkens/twscrape](https://github.com/vladkens/twscrape) | Twitter/X search and reply capture |
-| [yt-dlp/yt-dlp](https://github.com/yt-dlp/yt-dlp) | YouTube / Bilibili subtitle fetching and video download |
-| [xpzouying/xiaohongshu-mcp](https://github.com/xpzouying/xiaohongshu-mcp) | Fast Xiaohongshu search (optional) |
-| Alibaba Cloud Bailian fun-asr | Video speech transcription (optional, pay-as-you-go) |
-
-## 📁 Repository layout
-
+```text
+Use research-anything to plan a three-day family road trip. We have two adults,
+one toddler, and one older adult with limited walking; confirm current transport,
+booking, weather, and accessibility information before producing the itinerary.
 ```
+
+Expect Claude to pause at meaningful authorization and decision points. In particular, it must preserve your answers verbatim, show its structured decision contract, and ask you to confirm that contract before a `production-ready` result is possible.
+
+For an active v3 run, the state CLI can inspect health and progress without editing exports:
+
+```bash
+python3 ~/.claude/skills/research-anything/scripts/researchctl.py doctor \
+  --db docs/research/<topic>/research.db
+python3 ~/.claude/skills/research-anything/scripts/researchctl.py status \
+  --db docs/research/<topic>/research.db
+```
+
+## Connector capabilities and limitations
+
+Channel availability depends on tools, region, authentication, platform behavior, and the permissions you grant. A missing connector is recorded as a capability gap. It is not converted into a successful empty search.
+
+| Discovery source | Typical capability | Important limitations |
+|---|---|---|
+| General web and official sites | Current primary documents, pricing, policies, schedules, and verification | Access and rendering depend on the Claude Code web/browser tooling available in the environment. |
+| GitHub | Repositories, releases, code, licenses, and issue evidence | Requires available GitHub access; popularity is not evidence of production fit. |
+| YouTube and Bilibili | Metadata and subtitles; authorized ASR when needed | `yt-dlp`, cookies, region, subtitles, and media access may be unavailable. |
+| Douyin, Xiaohongshu, Zhihu, and Bilibili community data | Posts, comments, images, and video references | Platform login and anti-automation controls can block collection; account actions are never assumed. |
+| X/Twitter | Posts, threads, and replies | Authentication and platform controls change frequently; failure must be disclosed. |
+
+`MediaCrawler` is an optional connector for personal, non-commercial learning/research only under its upstream [NON-COMMERCIAL LEARNING LICENSE](https://github.com/NanmiCoder/MediaCrawler/blob/main/LICENSE). It is not enabled as the default for commercial research. Commercial or organizational use requires a separately authorized collection path, such as official APIs, permitted browser-assisted collection, or user-supplied exports.
+
+This repository does not bundle accounts, cookies, API keys, or permission to collect from any platform. Review each provider's terms, content rights, privacy requirements, account risk, API fees, and geographic rules. Claude usage, APIs, ASR, proxies, commercial data access, and other connectors may all incur cost; this project does not claim that everything except ASR is free.
+
+## Validate a delivery
+
+The skill runs these controls as part of the workflow. They are also available for audit and CI:
+
+```bash
+python3 ~/.claude/skills/research-anything/scripts/researchctl.py gate \
+  --db docs/research/<topic>/research.db
+python3 ~/.claude/skills/research-anything/scripts/researchctl.py export \
+  --db docs/research/<topic>/research.db \
+  --out-dir docs/research/<topic>
+python3 ~/.claude/skills/research-anything/scripts/render_delivery.py \
+  --decision docs/research/<topic>/decision.json \
+  --findings docs/research/<topic>/findings.jsonl \
+  --events docs/research/<topic>/events.jsonl \
+  --report docs/research/<topic>/report.html \
+  --runbook docs/research/<topic>/runbook.json \
+  --delivery-manifest docs/research/<topic>/delivery-manifest.json
+python3 ~/.claude/skills/research-anything/scripts/validate_delivery.py \
+  --out-dir docs/research/<topic>
+```
+
+HTML and runbook output are rendered from `decision.json`; they should not be hand-edited into agreement after a retry.
+
+## Audit a legacy v2 run
+
+v2 output remains readable but is not treated as v3 evidence. The read-only auditor identifies problems such as stale reports, conflicting totals, unresolved ASR attempts, weak verbatim records, or unconsumed artifacts without rewriting the old run:
+
+```bash
+python3 scripts/audit_v2.py \
+  --out-dir /path/to/legacy/docs/research/<topic> \
+  --out /tmp/v2-audit.json
+```
+
+Use `--strict` in CI or review workflows to return a non-zero exit status when blocker or high-severity findings exist.
+
+## Repository layout
+
+```text
 research-anything/
-├── SKILL.md               # Skill entry: pipeline and iron rules
-├── references/            # Stage-by-stage procedures + 8 channel playbooks
-│   └── channels/
-└── scripts/               # Collection orchestration, log validation, ASR/OCR, report assets (with tests)
+├── SKILL.md                  # Concise Claude Code orchestration contract
+├── references/               # Domain, channel, evidence, summarization, and delivery protocols
+├── scripts/
+│   ├── install_skill.py      # Install/check/doctor for the public skill bundle
+│   ├── researchctl.py        # Canonical v3 SQLite state and production gates
+│   ├── render_delivery.py    # Deterministic escaped report/runbook renderer
+│   ├── validate_delivery.py  # Cross-artifact delivery validator
+│   └── audit_v2.py           # Read-only legacy auditor
+└── pyproject.toml            # Python 3.11+ and test configuration
 ```
 
----
+## Development
 
-<p align="center">If this is useful, drop a ⭐ so more people can find it.</p>
+The runtime uses the Python standard library. Tests use `pytest`:
+
+```bash
+python3 -m pytest
+python3 -m py_compile scripts/*.py
+```
+
+## Scope
+
+research-anything improves the traceability and decision discipline of research; it cannot make inaccessible evidence available, turn correlated reposts into independent confirmation, or replace a representative production test. `blocked` is a valid and often valuable result.

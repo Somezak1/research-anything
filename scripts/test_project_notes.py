@@ -60,3 +60,37 @@ def test_stats_counts_only_headline_and_note(tmp_path):
     assert out["headline_note_chars"] == expect  # 2 万字 content 不计入熔断口径
     assert out["approx_tokens_conservative"] == expect
     assert out["channels"]["xiaohongshu"]["count"] == 2
+    assert out["notes_projected_chars"] > expect
+    assert out["notes_projected_bytes"] > out["notes_projected_chars"]  # 中文 UTF-8
+    assert len(out["dataset_hash"]) == 64
+
+
+def test_paginated_notes_cursor_and_receipt(tmp_path):
+    raw = _setup(tmp_path)
+    receipt = tmp_path / "read-receipts.jsonl"
+    first = json.loads(_run("--raw-dir", raw, "--mode", "notes", "--limit", "1",
+                            "--receipt", str(receipt)))
+    assert first["record_ids"] == ["xhs-001"] and first["next_cursor"]
+    second = json.loads(_run("--raw-dir", raw, "--mode", "notes", "--cursor", first["next_cursor"],
+                             "--limit", "1", "--receipt", str(receipt)))
+    assert second["record_ids"] == ["xhs-002"] and second["next_cursor"] is None
+    receipts = [json.loads(line) for line in receipt.read_text().splitlines()]
+    assert [row["record_ids"] for row in receipts] == [["xhs-001"], ["xhs-002"]]
+    assert (receipt.stat().st_mode & 0o777) == 0o600
+
+
+def test_cursor_rejects_changed_dataset(tmp_path):
+    raw = _setup(tmp_path)
+    first = json.loads(_run("--raw-dir", raw, "--mode", "headlines", "--limit", "1"))
+    path = os.path.join(raw, "findings.xiaohongshu.jsonl")
+    with open(path, "a", encoding="utf-8") as f:
+        f.write("\n")
+    result = subprocess.run([sys.executable, SCRIPT, "--raw-dir", raw, "--mode", "headlines",
+                             "--cursor", first["next_cursor"]], capture_output=True, text=True)
+    assert result.returncode != 0 and "原始数据已变化" in result.stderr
+
+
+def test_max_chars_never_splits_a_record(tmp_path):
+    page = json.loads(_run("--raw-dir", _setup(tmp_path), "--mode", "notes", "--max-chars", "1"))
+    assert page["record_ids"] == ["xhs-001"]
+    assert page["projected_chars"] > 1
